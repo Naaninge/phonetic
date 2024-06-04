@@ -11,25 +11,15 @@ app.use(express.json());
 app.post("/write-word", (req, res) => {
   const word = req.body.word;
 
-  // Check if the file exists, create it if it doesn't
-  fs.open("word.txt", (err, fd) => {
+  // Write the word to word.txt, overwriting any existing content
+  fs.writeFile("word.txt", word, (err) => {
     if (err) {
-      console.error("Error opening file:", err);
+      console.error("Error writing to file:", err);
       return res
         .status(500)
         .json({ success: false, message: "Internal Server Error" });
     }
-
-    // write to the file
-    fs.writeFile(fd, word, (err) => {
-      if (err) {
-        console.error("Error writing to file:", err);
-        return res
-          .status(500)
-          .json({ success: false, message: "Internal Server Error" });
-      }
-      res.json({ success: true, message: "Word written to file successfully" });
-    });
+    res.json({ success: true, message: "Word written to file successfully" });
   });
 });
 
