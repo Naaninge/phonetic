@@ -12,7 +12,7 @@ app.post("/write-word", (req, res) => {
   const word = req.body.word;
 
   // Check if the file exists, create it if it doesn't
-  fs.open("word.txt", "a", (err, fd) => {
+  fs.open("word.txt", (err, fd) => {
     if (err) {
       console.error("Error opening file:", err);
       return res
